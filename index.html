@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    #project-list {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    li {
+      background: white;
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: left;
+      list-style: none;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Projects</h1>
+  <ul id="project-list"></ul>
+
+  <script>
+    console.log("Frontend script started...");
+
+    fetch('http://localhost:5000/projects')
+      .then(response => {
+        console.log("Response received:", response.status);
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects from backend');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Data received:", data);
+        const list = document.getElementById('project-list');
+        list.innerHTML = '';
+
+        if (data.length === 0) {
+          list.innerHTML = '<li>No projects found</li>';
+          return;
+        }
+
+        data.forEach(project => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <strong>${project.name}</strong><br>
+            ${project.description || 'No description available'}
+          `;
+          list.appendChild(li);
+        });
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+        document.getElementById('project-list').innerHTML = 
+          `<li class="error">❌ Error: Could not connect to Backend.<br>
+          Please check if Backend server is running on port 5000.</li>`;
+      });
+  </script>
+</body>
+</html>
