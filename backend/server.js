@@ -1,9 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-app.use(cors());
 
+app.use(cors());
+app.use(express.json());
+
+// ✅ Your API data
 const projects = [
   {
     id: 1,
@@ -17,14 +21,17 @@ const projects = [
   }
 ];
 
-// 👉 ADD THIS
-app.get('/', (req, res) => {
-  res.send("Portfolio Backend is Running 🚀");
-});
-
-// existing route
+// ✅ API route
 app.get('/projects', (req, res) => {
   res.json(projects);
+});
+
+// ⭐ IMPORTANT: Serve frontend
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ⭐ This makes "/" load your index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
