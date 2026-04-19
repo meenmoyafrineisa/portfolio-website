@@ -26,17 +26,17 @@ app.get('/projects', (req, res) => {
   res.json(projects);
 });
 
-// ✅ Serve frontend
-app.use(express.static(path.join(__dirname, 'public')));
+// ✅ Serve frontend (Point to the Vite build output)
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // ✅ Root route (VERY IMPORTANT)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
-// fallback (optional but useful) - FIXED FOR EXPRESS 5+
+// fallback for single-page apps (Express 5+ fix)
 app.get(/(.*)/, (req, res) => {
-  res.send("404 Not Found");
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
