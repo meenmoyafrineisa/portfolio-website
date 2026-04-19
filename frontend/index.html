@@ -40,7 +40,8 @@
   <script>
     console.log("Frontend script started...");
 
-    fetch('https://api.render.com/deploy/srv-d7i8dafaqgkc739ocuig?key=cy4VJTxNUWc')
+    // Request the API on the same origin; backend serves `/projects`
+    fetch('/projects')
       .then(response => {
         console.log("Response received:", response.status);
         if (!response.ok) {
@@ -53,7 +54,7 @@
         const list = document.getElementById('project-list');
         list.innerHTML = '';
 
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
           list.innerHTML = '<li>No projects found</li>';
           return;
         }
@@ -70,8 +71,7 @@
       .catch(error => {
         console.error("Fetch error:", error);
         document.getElementById('project-list').innerHTML = 
-          `<li class="error">❌ Error: Could not connect to Backend.<br>
-          Please check if Backend server is running on port 5000.</li>`;
+          `<li class="error">❌ Error: Could not load projects from backend.</li>`;
       });
   </script>
 </body>
