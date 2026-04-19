@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Your API data
+// API data
 const projects = [
   {
     id: 1,
@@ -21,17 +21,22 @@ const projects = [
   }
 ];
 
-// ✅ API route
+// API route
 app.get('/projects', (req, res) => {
   res.json(projects);
 });
 
-// ⭐ IMPORTANT: Serve frontend
+// ✅ Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ⭐ This makes "/" load your index.html
+// ✅ Root route (VERY IMPORTANT)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// fallback (optional but useful)
+app.get('*', (req, res) => {
+  res.send("404 Not Found");
 });
 
 const PORT = process.env.PORT || 5000;
