@@ -46,8 +46,8 @@
   <script>
     console.log("Frontend script started...");
 
-    // ✅ FIXED: using live backend URL instead of localhost
-    fetch('https://portfolio-website-ag9w.onrender.com/projects')
+    // Use relative path so the same-origin backend serves the API
+    fetch('/projects')
       .then(response => {
         console.log("Response received:", response.status);
 
@@ -79,9 +79,8 @@
       })
       .catch(error => {
         console.error("Fetch error:", error);
-
         document.getElementById('project-list').innerHTML = 
-          `<li class="error">❌ Error: Could not connect to Backend.</li>`;
+          `<li class="error">❌ Error: Could not load projects from backend.</li>`;
       });
   </script>
 </body>
