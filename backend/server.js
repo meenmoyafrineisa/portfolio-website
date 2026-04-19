@@ -34,8 +34,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// fallback (optional but useful)
-app.get('*', (req, res) => {
+// fallback (optional but useful) - FIXED FOR EXPRESS 5+
+app.get(/(.*)/, (req, res) => {
   res.send("404 Not Found");
 });
 
