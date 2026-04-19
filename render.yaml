@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: portfolio-website
+    root: ./backend
+    runtime: node
+    buildCommand: cd .. && cd frontend && npm install && npm run build && cd ../backend && npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
