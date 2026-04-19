@@ -17,6 +17,12 @@ const projects = [
   }
 ];
 
+// 👉 ADD THIS
+app.get('/', (req, res) => {
+  res.send("Portfolio Backend is Running 🚀");
+});
+
+// existing route
 app.get('/projects', (req, res) => {
   res.json(projects);
 });
