@@ -2,14 +2,12 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+// Render uses process.env.PORT, while 5001 is your local MacBook fallback
 const PORT = process.env.PORT || 5001;
 
-// 1. CORS CONFIGURATION: Allow GitHub Pages and Localhost
+// 1. CORS: This allows your GitHub Pages site to "talk" to this Render backend
 app.use(cors({
-  origin: [
-    'https://meenmoyafrineisa.github.io', // Production Frontend
-    'http://localhost:3000'               // Local Frontend
-  ],
+  origin: 'https://meenmoyafrineisa.github.io',
   methods: ['GET', 'POST'],
   credentials: true
 }));
@@ -34,7 +32,7 @@ const projects = [
       'A full-stack portfolio website with a Node.js/Express backend serving project data via REST API, and a React frontend that dynamically renders content fetched from the backend.',
     tech: ['React', 'Node.js', 'Express', 'Render'],
     github: 'https://github.com/meenmoyafrineisa/portfolio-website',
-    live: '',
+    live: 'https://meenmoyafrineisa.github.io/portfolio-website/',
   },
   {
     id: 3,
@@ -52,13 +50,8 @@ app.get('/projects', (req, res) => {
   res.json(projects);
 });
 
-app.get('/api/projects', (req, res) => {
-  res.json(projects);
-});
-
-// ── Start ──────────────────────────────────────────────────────────────────
-// 2. FIXED SERVER START: '0.0.0.0' helps Render bind correctly to the port.
+// ── Start Server ───────────────────────────────────────────────────────────
+// Adding '0.0.0.0' is vital for Render to correctly route external traffic
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server running on port ${PORT}`);
-  console.log(`📦 Projects API: http://localhost:${PORT}/projects`);
 });
