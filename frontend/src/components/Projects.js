@@ -7,13 +7,12 @@ export default function Projects() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 1. Point this to your ACTUAL Render URL
-    // Replace 'https://your-app-name.onrender.com' with your link from Render dashboard
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://YOUR_RENDER_APP_NAME.onrender.com';
+    // Replace with your actual Render service URL found in your Render Dashboard
+    const RENDER_URL = 'https://portfolio-website-v91p.onrender.com';
     const LOCAL_URL = 'http://localhost:5001';
 
-    // Use LOCAL_URL if you are working on your Mac, BASE_URL if it's on the internet
-    const finalUrl = window.location.hostname === 'localhost' ? LOCAL_URL : BASE_URL;
+    // Logic: If we are on our own computer, use Local URL. If on GitHub, use Render URL.
+    const finalUrl = window.location.hostname === 'localhost' ? LOCAL_URL : RENDER_URL;
 
     fetch(`${finalUrl}/projects`)
       .then(res => {
@@ -47,7 +46,7 @@ export default function Projects() {
         <div className="projects__state projects__state--error">
           <p>❌ {error}</p>
           <p className="projects__hint">
-            Ensure your Render backend is active and CORS is configured for meenmoyafrineisa.github.io.
+            The Render server might be "sleeping." Please refresh the page in 1 minute.
           </p>
         </div>
       )}
@@ -74,22 +73,12 @@ export default function Projects() {
               </div>
               <div className="project-card__links">
                 {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="project-card__link"
-                  >
+                  <a href={project.github} target="_blank" rel="noreferrer" className="project-card__link">
                     GitHub ↗
                   </a>
                 )}
                 {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="project-card__link project-card__link--live"
-                  >
+                  <a href={project.live} target="_blank" rel="noreferrer" className="project-card__link project-card__link--live">
                     Live ↗
                   </a>
                 )}
