@@ -1,12 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
 
-// Render requires the port to be dynamic
+// Render uses process.env.PORT, local uses 5001
 const PORT = process.env.PORT || 5001;
 
-// Enable CORS for your GitHub Pages URL
+// CORS configuration
 app.use(cors({
   origin: 'https://meenmoyafrineisa.github.io'
 }));
@@ -40,12 +39,11 @@ const projects = [
   }
 ];
 
-// Routes
 app.get('/projects', (req, res) => {
   res.json(projects);
 });
 
-// Render needs '0.0.0.0' to correctly bind the port
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
