@@ -7,11 +7,15 @@ export default function Projects() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 1. Point to port 5001 for local development
-    // 2. Use an environment variable for production (Render/Vercel)
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+    // 1. Point this to your ACTUAL Render URL
+    // Replace 'https://your-app-name.onrender.com' with your link from Render dashboard
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'https://YOUR_RENDER_APP_NAME.onrender.com';
+    const LOCAL_URL = 'http://localhost:5001';
 
-    fetch(`${backendUrl}/api/projects`) // Added /api/ to match standard backend routes
+    // Use LOCAL_URL if you are working on your Mac, BASE_URL if it's on the internet
+    const finalUrl = window.location.hostname === 'localhost' ? LOCAL_URL : BASE_URL;
+
+    fetch(`${finalUrl}/projects`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -43,8 +47,7 @@ export default function Projects() {
         <div className="projects__state projects__state--error">
           <p>❌ {error}</p>
           <p className="projects__hint">
-            {/* Updated hint to reflect your new port */}
-            Make sure the backend server is running on port 5001.
+            Ensure your Render backend is active and CORS is configured for meenmoyafrineisa.github.io.
           </p>
         </div>
       )}
@@ -53,7 +56,7 @@ export default function Projects() {
         <ul className="projects__grid">
           {projects.map((project, i) => (
             <li
-              key={project._id || project.id} // Added _id for MongoDB compatibility
+              key={project.id}
               className="project-card"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
@@ -61,10 +64,10 @@ export default function Projects() {
                 {String(i + 1).padStart(2, '0')}
               </div>
               <div className="project-card__body">
-                <h3 className="project-card__name">{project.name || project.title}</h3>
+                <h3 className="project-card__name">{project.name}</h3>
                 <p className="project-card__desc">{project.description}</p>
                 <ul className="project-card__tech">
-                  {project.tech && project.tech.map(t => (
+                  {project.tech.map(t => (
                     <li key={t}>{t}</li>
                   ))}
                 </ul>
