@@ -1,0 +1,26 @@
+.contact {
+  border-top: 1px solid var(--border);
+}
+
+.contact__inner {
+  max-width: 640px;
+}
+
+.contact__title span {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent2);
+}
+
+.contact__sub {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  margin-top: -24px;
+}
+
+.contact__links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
