@@ -7,11 +7,10 @@ export default function Projects() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Replace with your actual Render service URL found in your Render Dashboard
     const RENDER_URL = 'https://portfolio-website-v91p.onrender.com';
     const LOCAL_URL = 'http://localhost:5001';
 
-    // Logic: If we are on our own computer, use Local URL. If on GitHub, use Render URL.
+    // Auto-detect if we are local or live
     const finalUrl = window.location.hostname === 'localhost' ? LOCAL_URL : RENDER_URL;
 
     fetch(`${finalUrl}/projects`)
@@ -24,7 +23,7 @@ export default function Projects() {
         setLoading(false);
       })
       .catch(err => {
-        console.error('Failed to load projects:', err);
+        console.error('Fetch error:', err);
         setError('Could not load projects from the backend.');
         setLoading(false);
       });
@@ -35,53 +34,29 @@ export default function Projects() {
       <p className="section-label">Projects</p>
       <h2 className="section-title">Selected Work</h2>
 
-      {loading && (
-        <div className="projects__state">
-          <span className="projects__spinner" />
-          <p>Loading projects from backend…</p>
-        </div>
-      )}
+      {loading && <div className="projects__state"><p>Loading...</p></div>}
 
       {error && (
         <div className="projects__state projects__state--error">
           <p>❌ {error}</p>
-          <p className="projects__hint">
-            The Render server might be "sleeping." Please refresh the page in 1 minute.
-          </p>
+          <p className="projects__hint">Ensure the Render backend is live.</p>
         </div>
       )}
 
       {!loading && !error && (
         <ul className="projects__grid">
           {projects.map((project, i) => (
-            <li
-              key={project.id}
-              className="project-card"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <div className="project-card__index">
-                {String(i + 1).padStart(2, '0')}
-              </div>
+            <li key={project.id} className="project-card">
+              <div className="project-card__index">{String(i + 1).padStart(2, '0')}</div>
               <div className="project-card__body">
                 <h3 className="project-card__name">{project.name}</h3>
                 <p className="project-card__desc">{project.description}</p>
                 <ul className="project-card__tech">
-                  {project.tech.map(t => (
-                    <li key={t}>{t}</li>
-                  ))}
+                  {project.tech.map(t => <li key={t}>{t}</li>)}
                 </ul>
               </div>
               <div className="project-card__links">
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noreferrer" className="project-card__link">
-                    GitHub ↗
-                  </a>
-                )}
-                {project.live && (
-                  <a href={project.live} target="_blank" rel="noreferrer" className="project-card__link project-card__link--live">
-                    Live ↗
-                  </a>
-                )}
+                <a href={project.github} target="_blank" rel="noreferrer" className="project-card__link">GitHub ↗</a>
               </div>
             </li>
           ))}
