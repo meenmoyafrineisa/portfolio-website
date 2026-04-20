@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
       <div className="header__inner">
-        <a href="#hero" className="header__logo">MF<span>.</span></a>
+        <a href="#hero" className="header__logo">SM<span>.</span></a>
         <nav className="header__nav">
           <a href="#about">About</a>
           <a href="#projects">Projects</a>
