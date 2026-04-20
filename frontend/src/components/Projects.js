@@ -10,7 +10,6 @@ export default function Projects() {
     const RENDER_URL = 'https://portfolio-website-v91p.onrender.com';
     const LOCAL_URL = 'http://localhost:5001';
 
-    // Auto-detect if we are local or live
     const finalUrl = window.location.hostname === 'localhost' ? LOCAL_URL : RENDER_URL;
 
     fetch(`${finalUrl}/projects`)
@@ -24,7 +23,7 @@ export default function Projects() {
       })
       .catch(err => {
         console.error('Fetch error:', err);
-        setError('Could not load projects from the backend.');
+        setError('Could not load projects.');
         setLoading(false);
       });
   }, []);
@@ -34,12 +33,12 @@ export default function Projects() {
       <p className="section-label">Projects</p>
       <h2 className="section-title">Selected Work</h2>
 
-      {loading && <div className="projects__state"><p>Loading...</p></div>}
+      {loading && <div className="projects__state"><p>Loading projects...</p></div>}
 
       {error && (
         <div className="projects__state projects__state--error">
           <p>❌ {error}</p>
-          <p className="projects__hint">Ensure the Render backend is live.</p>
+          <p className="projects__hint">Check if the Render backend is live.</p>
         </div>
       )}
 
