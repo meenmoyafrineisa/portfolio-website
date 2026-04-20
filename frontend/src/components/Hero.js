@@ -11,8 +11,8 @@ export default function Hero() {
           Available for research collaboration
         </p>
         <h1 className="hero__title">
-          Meenmoya<br />
-          <span>Frineisa</span>
+          Soyoda<br />
+          <span>Meenmoy</span>
         </h1>
         <p className="hero__sub">
           NLP Researcher &amp; Data Scientist — building language technology
