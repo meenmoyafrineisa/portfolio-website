@@ -1,12 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.use(cors());
+// 1. CORS CONFIGURATION: Allow GitHub Pages and Localhost
+app.use(cors({
+  origin: [
+    'https://meenmoyafrineisa.github.io', // Production Frontend
+    'http://localhost:3000'               // Local Frontend
+  ],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // ── Projects data ──────────────────────────────────────────────────────────
@@ -49,17 +56,9 @@ app.get('/api/projects', (req, res) => {
   res.json(projects);
 });
 
-// ── Serve React build in production ───────────────────────────────────────
-const buildPath = path.join(__dirname, '../frontend/build');
-app.use(express.static(buildPath));
-
-// Catch-all: return the React app for any non-API route
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
-
 // ── Start ──────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`✅  Server running on http://localhost:${PORT}`);
-  console.log(`📦  Projects API: http://localhost:${PORT}/projects`);
+// 2. FIXED SERVER START: '0.0.0.0' helps Render bind correctly to the port.
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`📦 Projects API: http://localhost:${PORT}/projects`);
 });
